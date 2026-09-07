@@ -4,7 +4,7 @@ import database as db
 import carga_datos as cd
 from datetime import date
 
-st.set_page_config(page_title="Quejas y Reclamos | Dirección de Asuntos Académicos", page_icon="🎓", layout="wide")
+st.set_page_config(page_title="Quejas y Reclamos | Dirección de Estudios Generales Ciencias", page_icon="🎓", layout="wide")
 
 # Credenciales Supabase desde secrets (Cloud) o entorno (local)
 import os
@@ -420,7 +420,7 @@ def cabecera():
                 {logo_html}
             </div>
             <div class="titulos">
-                <div class="direccion">Dirección de Asuntos Académicos</div>
+                <div class="direccion">Dirección de Estudios Generales Ciencias</div>
                 <div class="sistema">Sistema de Quejas y Reclamos de Estudiantes</div>
             </div>
         </div>
@@ -443,7 +443,7 @@ def pie():
         <div class="uc-pie">
             <span class="uc-pie-uni">UNIVERSIDAD CONTINENTAL</span>
             <span class="uc-pie">·</span>
-            <span class="uc-pie-daa">Dirección de Asuntos Académicos – Ciencias</span>
+            <span class="uc-pie-daa">Dirección de Estudios Generales Ciencias</span>
             <span class="uc-pie">·</span>
             <span class="uc-pie-at">@mquispe</span>
         </div>
