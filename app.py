@@ -445,7 +445,7 @@ def pie():
             <span class="uc-pie">·</span>
             <span class="uc-pie-daa">Dirección de Estudios Generales Ciencias</span>
             <span class="uc-pie">·</span>
-            <span class="uc-pie-at">@mquispe/@avelasquez</span>
+            <span class="uc-pie-at">@mquispee/@avelasquezt</span>
         </div>
         """,
         unsafe_allow_html=True,
