@@ -6,6 +6,12 @@ from datetime import date
 
 st.set_page_config(page_title="Quejas y Reclamos | Dirección de Asuntos Académicos", page_icon="🎓", layout="wide")
 
+# Credenciales Supabase desde secrets (Cloud) o entorno (local)
+import os
+if "supabase" in st.secrets:
+    os.environ["SUPABASE_URL"] = st.secrets["supabase"]["url"]
+    os.environ["SUPABASE_KEY"] = st.secrets["supabase"]["key"]
+
 # Paleta institucional PROYECTO PRISM - Universidad Continental (UCColores.tex)
 UC_PRINCIPAL = "#6802C1"          # violeta institucional
 UC_FRANJA = "#9632FA"             # violeta luminoso
