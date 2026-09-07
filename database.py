@@ -1,4 +1,5 @@
 import os
+import uuid
 from datetime import datetime
 
 from supabase import create_client
@@ -8,6 +9,17 @@ def get_client():
     url = os.environ.get("SUPABASE_URL")
     key = os.environ.get("SUPABASE_KEY")
     return create_client(url, key)
+
+
+def subir_evidencia(nombre_archivo, contenido, mime):
+    sb = get_client()
+    ruta = f"{uuid.uuid4().hex}_{nombre_archivo}"
+    sb.storage.from_("evidencias").upload(
+        ruta,
+        contenido,
+        file_options={"content-type": mime, "x-upsert": "true"},
+    )
+    return sb.storage.from_("evidencias").get_public_url(ruta)
 
 
 def init_db():
@@ -53,6 +65,8 @@ def insertar_queja(datos, horarios=None):
         "tipo": datos["tipo"],
         "detalle": datos["detalle"],
         "solicita": datos.get("solicita", ""),
+        "evidencia_url": datos.get("evidencia_url", ""),
+        "evidencia_nombre": datos.get("evidencia_nombre", ""),
         "fecha_hecho": datos["fecha_hecho"],
         "estado": datos.get("estado", "Pendiente"),
         "creado_en": creado_en,

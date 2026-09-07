@@ -557,6 +557,13 @@ def mostrar_formulario():
         st.subheader("📝 Detalle de la Queja / Reclamo")
         detalle = st.text_area("Describa la queja o reclamo *", height=140)
         solicita = st.text_area("Solicita *", height=100, help="Escriba lo que desea el estudiante.")
+        etiqueta("Evidencias")
+        evidencia = st.file_uploader(
+            "Evidencias",
+            type=["pdf", "jpg", "jpeg", "png", "mp3", "wav", "m4a", "mp4", "avi", "mov", "doc", "docx"],
+            help="Adjunte un documento probatorio (PDF, imagen, audio, video o Word). Se guardará para la consulta posterior.",
+            label_visibility="collapsed",
+        )
 
         submitted = st.form_submit_button("💾 Guardar registro")
 
@@ -582,6 +589,11 @@ def mostrar_formulario():
                     "fecha_hecho": fecha_hecho.strftime("%Y-%m-%d"),
                     "estado": "Pendiente",
                 }
+                if evidencia is not None:
+                    import mimetypes
+                    mime = mimetypes.guess_type(evidencia.name)[0] or "application/octet-stream"
+                    datos["evidencia_url"] = db.subir_evidencia(evidencia.name, evidencia.getvalue(), mime)
+                    datos["evidencia_nombre"] = evidencia.name
                 folio = db.insertar_queja(datos, horarios)
                 st.success(f"✅ Registro guardado correctamente")
                 st.markdown(f'<div class="folio-badge">Folio asignado: {folio}</div>', unsafe_allow_html=True)
@@ -635,7 +647,11 @@ def mostrar_registros():
                     f'<strong>Tipo:</strong> {q["tipo"]}<br>'
                     f'<strong>Hecho:</strong> {q["fecha_hecho"]} · <strong>Registro:</strong> {q["fecha"]}<br>'
                     f'<strong>Queja/Reclamo:</strong> {q["detalle"]}<br>'
-                    f'<strong>Solicita:</strong> {q.get("solicita", "")}',
+                    f'<strong>Solicita:</strong> {q.get("solicita", "")}<br>'
+                    f'<strong>Evidencia:</strong> ' + (
+                        f'<a href="{q["evidencia_url"]}" target="_blank" style="color:#6802C1;font-weight:600;">Descargar {q.get("evidencia_nombre", "archivo")}</a>'
+                        if q.get("evidencia_url") else "<em>No adjuntada</em>"
+                    ),
                     unsafe_allow_html=True,
                 )
             with cols[1]:
