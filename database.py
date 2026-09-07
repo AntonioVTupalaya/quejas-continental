@@ -3,12 +3,11 @@ from datetime import datetime
 
 from supabase import create_client
 
-SUPABASE_URL = os.getenv("SUPABASE_URL")
-SUPABASE_KEY = os.getenv("SUPABASE_KEY")
-
 
 def get_client():
-    return create_client(SUPABASE_URL, SUPABASE_KEY)
+    url = os.environ.get("SUPABASE_URL")
+    key = os.environ.get("SUPABASE_KEY")
+    return create_client(url, key)
 
 
 def init_db():
