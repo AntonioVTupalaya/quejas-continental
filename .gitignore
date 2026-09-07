@@ -1,0 +1,9 @@
+__pycache__/
+*.pyc
+.streamlit/secrets.toml
+*.db
+*.log
+streamlit_err.txt
+streamlit_log.txt
+HORARIO PRESENCIAL 2026-20.pdf
+LogoHorizontalNegativo-UC-PNG - copia.png
