@@ -8,9 +8,14 @@ st.set_page_config(page_title="Quejas y Reclamos | Dirección de Asuntos Académ
 
 # Credenciales Supabase desde secrets (Cloud) o entorno (local)
 import os
-if "supabase" in st.secrets:
-    os.environ["SUPABASE_URL"] = st.secrets["supabase"]["url"]
-    os.environ["SUPABASE_KEY"] = st.secrets["supabase"]["key"]
+_sb_secret = st.secrets.get("supabase", {}) if st.secrets else {}
+SUPABASE_URL = _sb_secret.get("url") or os.environ.get("SUPABASE_URL")
+SUPABASE_KEY = _sb_secret.get("key") or os.environ.get("SUPABASE_KEY")
+if not (SUPABASE_URL and SUPABASE_KEY):
+    st.error("Faltan las credenciales de Supabase. Configúralas en los Secrets de Streamlit Cloud o en .streamlit/secrets.toml")
+    st.stop()
+os.environ["SUPABASE_URL"] = SUPABASE_URL
+os.environ["SUPABASE_KEY"] = SUPABASE_KEY
 
 # Paleta institucional PROYECTO PRISM - Universidad Continental (UCColores.tex)
 UC_PRINCIPAL = "#6802C1"          # violeta institucional
