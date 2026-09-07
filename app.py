@@ -467,6 +467,8 @@ def mostrar_formulario():
             matricula = st.text_input("Código de Matrícula", label_visibility="collapsed")
             etiqueta("Celular *")
             celular = st.text_input("Celular", label_visibility="collapsed")
+            etiqueta("Correo de contacto *")
+            correo = st.text_input("Correo de contacto", label_visibility="collapsed")
         with c2:
             etiqueta("DNI *")
             dni = st.text_input("DNI", label_visibility="collapsed")
@@ -559,7 +561,7 @@ def mostrar_formulario():
         submitted = st.form_submit_button("💾 Guardar registro")
 
         if submitted:
-            if not apellidos or not nombres or not matricula or not celular or not dni or not nrc or not detalle or not asignatura or not docente or not solicita:
+            if not apellidos or not nombres or not matricula or not celular or not correo or not dni or not nrc or not detalle or not asignatura or not docente or not solicita:
                 st.error("Por favor complete los campos obligatorios marcados con *")
             else:
                 datos = {
@@ -568,6 +570,7 @@ def mostrar_formulario():
                     "nombres": nombres.strip().upper(),
                     "matricula": matricula.strip().upper(),
                     "celular": celular.strip(),
+                    "correo": correo.strip(),
                     "dni": dni.strip(),
                     "eap": eap,
                     "asignatura": asignatura.strip(),
@@ -597,11 +600,11 @@ def mostrar_registros():
     with tab_tabla:
         df = pd.DataFrame(quejas)
         columnas = ["id", "folio", "fecha", "apellidos", "nombres", "matricula",
-                    "celular", "dni", "eap", "asignatura", "nrc", "docente",
+                    "celular", "correo", "dni", "eap", "asignatura", "nrc", "docente",
                     "tipo", "estado"]
         display = df[columnas].copy()
         display.columns = ["ID", "Folio", "Fecha", "Apellidos", "Nombres", "Matrícula",
-                           "Celular", "DNI", "EAP", "Asignatura", "NRC", "Docente",
+                           "Celular", "Correo", "DNI", "EAP", "Asignatura", "NRC", "Docente",
                            "Tipo", "Estado"]
         st.dataframe(display, use_container_width=True, hide_index=True)
 
@@ -626,7 +629,7 @@ def mostrar_registros():
                     f'<strong>{q["folio"]}</strong> - {q["apellidos"]}, {q["nombres"]} '
                     f'({q["matricula"]})<br>'
                     f'<strong>EAP:</strong> {q["eap"]} · <strong>DNI:</strong> {q["dni"]} · '
-                    f'<strong>Celular:</strong> {q["celular"]}<br>'
+                    f'<strong>Celular:</strong> {q["celular"]} · <strong>Correo:</strong> {q.get("correo", "")}<br>'
                     f'<strong>Asignatura:</strong> {q["asignatura"]} · <strong>NRC:</strong> {q["nrc"]}<br>'
                     f'<strong>Docente:</strong> {q["docente"]} · <strong>Horario:</strong> {horario_txt}<br>'
                     f'<strong>Tipo:</strong> {q["tipo"]}<br>'

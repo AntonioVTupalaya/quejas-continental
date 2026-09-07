@@ -44,6 +44,7 @@ def insertar_queja(datos, horarios=None):
         "nombres": datos["nombres"],
         "matricula": datos["matricula"],
         "celular": datos.get("celular", ""),
+        "correo": datos.get("correo", ""),
         "dni": datos.get("dni", ""),
         "eap": datos.get("eap", ""),
         "asignatura": datos.get("asignatura", ""),
