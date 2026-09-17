@@ -2,7 +2,7 @@ import os
 import uuid
 from datetime import datetime
 
-from supabase import create_client
+from supabase import create_client, SupabaseException
 
 
 def get_client():
@@ -26,10 +26,10 @@ def init_db():
     sb = get_client()
     try:
         sb.table("quejas").select("id").limit(1).execute()
-    except Exception:
-        raise RuntimeError(
-            "Tabla 'quejas' no existe en Supabase. Crealas en el SQL Editor."
-        )
+    except SupabaseException as e:
+        raise RuntimeError(f"Supabase no accesible: {e}") from e
+    except Exception as e:
+        raise RuntimeError(f"Error de conexión Supabase: {type(e).__name__}: {e}") from e
 
 
 def generar_folio(sb):
